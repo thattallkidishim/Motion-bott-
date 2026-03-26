@@ -331,7 +331,8 @@ def main():
     if SCAN_INTERVAL_MINUTES > 0:
         scheduler = AsyncIOScheduler()
         scheduler.add_job(auto_scan_job, "interval", minutes=SCAN_INTERVAL_MINUTES, args=[app])
-        scheduler.start()
+                app.post_init = lambda _: scheduler.start()
+
     log.info("Bot running...")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
